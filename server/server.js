@@ -15,8 +15,17 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://treack-progress.vercel.app',
+];
+
 app.use(cors({
-  origin: ['http://localhost:5173'],
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('CORS policy: Origin not allowed'));
+  },
   credentials: true,
 }));
 
