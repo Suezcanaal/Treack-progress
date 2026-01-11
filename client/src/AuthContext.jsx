@@ -8,7 +8,7 @@ export function AuthProvider({ children }) {
 
   const api = useMemo(() => {
     const instance = axios.create({
-      baseURL: 'http://localhost:5000/api',
+      baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api',
     });
     instance.interceptors.request.use((config) => {
       if (token) config.headers.Authorization = `Bearer ${token}`;
